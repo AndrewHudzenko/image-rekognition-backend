@@ -3,9 +3,12 @@ package com.correnet.imagerekognition.controller;
 import com.correnet.imagerekognition.service.aws.rekognition.impl.RekognitionClientImpl;
 import com.correnet.imagerekognition.service.aws.s3.impl.S3ClientImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,9 +32,10 @@ public class ImageController {
     private final S3ClientImpl s3ClientImpl;
     private final RekognitionClientImpl rekognitionClientImpl;
 
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", name = "upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Upload image", description = "Upload image to S3 bucket")
-    public String uploadImage(@RequestPart("image") MultipartFile image) {
+    public String uploadImage(@Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+                              @RequestPart("image") MultipartFile image) {
         log.info("Image Controller: Uploading image: {}", image);
         return s3ClientImpl.uploadFile(image);
     }
