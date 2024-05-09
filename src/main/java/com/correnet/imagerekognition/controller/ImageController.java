@@ -25,7 +25,6 @@ public class ImageController {
     private final S3ClientImpl s3ClientImpl;
     private final RekognitionClientImpl rekognitionClientImpl;
 
-    // TODO: replace image with file
     @PostMapping("/upload")
     public String uploadImage(@RequestPart("image") MultipartFile image) {
         log.info("Image Controller: Uploading image: {}", image);
