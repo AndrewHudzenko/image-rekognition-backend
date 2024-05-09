@@ -27,7 +27,10 @@ public class AwsConfig {
 
     @Bean
     AmazonS3 amazonS3() {
-        return new AmazonS3Client(credentials());
+        return AmazonS3Client.builder()
+                .withRegion(region)
+                .withCredentials(new AWSStaticCredentialsProvider(credentials()))
+                .build();
     }
 
     @Bean
